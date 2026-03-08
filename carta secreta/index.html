@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carta Secreta 2 by myeya</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(194, 197, 197); 
+      overflow-x: hidden;
+    }
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .heart {
+      position: absolute;
+      animation: fall linear forwards;
+      color: rgba(255,0,0,0.6);
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+    .screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+    .active {
+      display: flex;
+    }
+    .password-screen {
+      flex-direction: column;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    .key {
+      background-color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+    }
+    .key:hover {
+      background-color: #e6f0f5;
+      transform: translateY(-3px);
+    }
+    .input-display {
+      font-size: 24px;
+      margin-top: 20px;
+      letter-spacing: 8px;
+    }
+    .notepad {
+      background-color: #f9f9f9;
+      border: 3px solid #000000;
+      padding: 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      line-height: 1.6;
+      font-size: 13px;
+      box-shadow: 8px 8px 15px rgba(0,0,0,0.2);
+      opacity: 0;
+      animation: aparecerCarta 1.2s ease forwards;
+    }
+    .notepad h3 {
+      margin-top: 0;
+    }
+    .password-img {
+      width: 260px; 
+      height: 150px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .password-img:hover {
+      transform: scale(1.08);
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.4);
+    }
+    .note-img {
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background-color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+    .back-btn:hover {
+      background-color: #ded8d8;
+      transform: translateY(-2px);
+    }
+    @keyframes aparecerCarta {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+  </style>
+</head>
+<body>
+<div class="hearts"></div>
+<div id="passwordScreen" class="screen password-screen active">
+<img src="https://acortar.link/el8Gwt" 
+     alt="imagen decorativa" 
+     class="password-img" 
+     style="width: 300px; height: auto;">
+  <h2>🔒 Ingresa la contraseña</h2>
+  <div class="input-display" id="inputDisplay">°°°°</div>
+  <div class="keypad">
+    <button class="key" onclick="enterDigit('1')">1</button>
+    <button class="key" onclick="enterDigit('2')">2</button>
+    <button class="key" onclick="enterDigit('3')">3</button>
+    <button class="key" onclick="enterDigit('4')">4</button>
+    <button class="key" onclick="enterDigit('5')">5</button>
+    <button class="key" onclick="enterDigit('6')">6</button>
+    <button class="key" onclick="enterDigit('7')">7</button>
+    <button class="key" onclick="enterDigit('8')">8</button>
+    <button class="key" onclick="enterDigit('9')">9</button>
+    <button class="key" onclick="checkPassword()">✔</button>
+    <button class="key" onclick="enterDigit('0')">0</button>
+    <button class="key" onclick="deleteLast()">⌫</button>
+  </div>
+</div>
+<div id="notepadScreen" class="screen">
+  <div class="notepad" style="text-align: center;">
+    <img src="https://m.media-amazon.com/images/S/pv-target-images/8afcc1223f443d48147ece9d93cabaa07a03346450a9c04207036587b844460c._SX1080_FMjpg_.jpg" 
+         alt="Imagen decorativa" 
+         class="password-img"
+         style="max-width: 100%; height: auto;">
+<h3 style="text-align: left; margin-bottom: 0;">📅 08 marzo 2026</h3>
+<h4 style="text-align: left; margin-top: 0;">💌 Mi Querida leslie magu arellan agama</h4>
+</p>
+<p style="text-align: justify;">
+  Hoy quiero aprovechar este día tan especial para honrar no solo la persona increíble que eres, sino también todos los momentos que compartimos y que hicieron de nuestra historia algo único. 
+  Hoy pienso en tu risa, en tus gestos, en la manera en que iluminaste mis días, y en cómo me enseñaste a valorar cada instante que tenemos a nuestro lado. Quiero que sepas que, más allá de un 
+  día en el calendario, siempre recordaré tu fuerza, tu ternura y todo lo hermoso que aportaste a mi vida, y por eso hoy te escribo estas palabras con el corazón abierto. A lo largo de este año y medio,
+ y especialmente durante nuestro tiempo juntos, hemos compartido momentos que siempre llevaré en mi corazón. Recuerdo con ternura esas noches en las que nos sumergíamos en series como Ataque de los Titanes 
+ y la vida te da mandarinas, entre otras series y caricaturas, compartiendo nuestros gustos y pasiones. También esos momentos en los que, al caminar, sincronizábamos cada paso y yo te miraba, 
+  feliz de sentir esa conexión tan especial. En la cocina, reímos, aprendimos y hasta cometimos pequeños errores pero cada momento fue bello y cada instante a tu lado fue valioso.
+</p>
+<p style="text-align: justify;">
+  También atesoro esos viajes que compartimos, cómo fuiste parte fundamental 
+  de mi vida, incluso en mi graduación. Cada experiencia, cada gesto de amor, y cada detalle, como cuando me introdujiste al 
+  mundo del sushi, son recuerdos que atesoro profundamente. Sé que no fuimos perfectos, y que a veces mis actitudes no ayudaron, pero siempre valoraré lo que fuimos y lo que significaste para mí. 
+  Aunque hoy nuestro amor se haya transformado en algo imposible, deseo que siempre encuentres la felicidad y que la vida te sonría.
+  </p>
+<p style="text-align: justify;">
+  Al igual que en la canción de Bruno Mars, “Risk It All”, mi amor por ti siempre estuvo dispuesto a ir más allá, a darlo todo sin condiciones. Hice todo lo que pude para demostrarte cuánto 
+  significas para mí y siempre estuve dispuesto a enfrentar cualquier riesgo por nosotros. Tal vez pude haber hecho aún más, y aunque lamento que nuestro amor sea hoy imposible, quiero que sepas 
+  que cada esfuerzo y cada momento que compartimos fueron sinceros y nacieron de un corazón que te ama con todo el cariño del mundo. Sé que, en ocasiones, mis palabras se enfocaban en imperfecciones, 
+  pero nunca fue con la intención de hacerte daño, era mi forma de expresarme, pero eso no implicaba que te hiciera mucho daño, por esas cosas me lamento demasiado, ya que no queria que lo miraras asi 
+  por eso disculpame, muchas veces comento errores y esto es uno de los errores que mas lamento ya que no queria causar ese daño a una persona que tanto he querido y tanto quiero. En el fondo, 
+  siempre quise demostrarte cuánto te he querido y cuánto significas para mí. La canción, al igual que esta carta, habla de ese compromiso, de la entrega total que te he dado en la relación y tambien 
+  en estos meses ultimos que demostre lo mucho que te amaba sin querer nada a cambio en estos 3 meses no te toque ni un pelo y eso demuestra lo que he dado fueron sinceras y con un 
+  fin que vieras ese amor que tanto tenia hacia tu persona y la transparecia con la que te he amado ya que para mi tu eras sagrada y por ende debias recibir todo el amor que he tenido y tengo. 
+  La canción que se escucha de fondo es la de bruno mars y que refleja mi amor hacia ti...
+</p>
+<p style="text-align: justify;">
+  tengo muchas cosas mas que decirte, esta carta no refleja todo lo que siento por ti, lo que pienso de ti o de todas las experiencias que e vivido a tu lado es una partecita de lo que me has dado y lo 
+  que he sentido..., te agradezco inmensamenteeeeee pooooooor todooooo, graciaaaas pooooooor seeeeer el amoooooor maaaaaas bonitooooooo queeee heee tenido.♡
+  </p>
+<p style="text-align: justify;">
+  Con todo mi cariño y gratitud,
+<p style="text-align: justify;">
+  Elvis(el bobo)
+</p>
+    <button class="back-btn" onclick="goBack()">🔙 Inicio</button>
+  </div>
+</div>
+<script>
+  let velocidadCoraones = 500;
+
+  function crearCorazones() {
+    const heartsContainer = document.querySelector('.hearts');
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '❤';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 60 + 40) + 'px'; // de 20px a 60px
+      heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      heartsContainer.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 8000);
+    }, velocidadCoraones);
+  }
+  crearCorazones();
+  const correctPassword = '5305';
+  let input = '';
+  function enterDigit(digit) {
+    if (input.length < 4) {
+      input += digit;
+      updateDisplay();
+    }
+  }
+  function deleteLast() {
+    input = input.slice(0, -1);
+    updateDisplay();
+  }
+  function updateDisplay() {
+    document.getElementById('inputDisplay').textContent = input.padEnd(4, '•');
+  }
+  function checkPassword() {
+    if (input.length === 4) {
+      if (input === correctPassword) {
+        velocidadCoraones = 120;
+        document.getElementById('passwordScreen').classList.remove('active');
+        document.getElementById('notepadScreen').classList.add('active');
+      
+        document.getElementById('musica').play();
+      } else {
+        alert('Contraseña incorrecta, intenta de nuevo');
+        input = '';
+        updateDisplay();
+      }
+    } else {
+      alert('Debes ingresar los 4 dígitos.');
+    }
+  }
+  function goBack() {
+    document.getElementById('notepadScreen').classList.remove('active');
+    document.getElementById('passwordScreen').classList.add('active');
+    input = '';
+    updateDisplay();
+  }
+</script>
+<audio id="musica" src="cancion.mp3" style="display:none"></audio>
+</body>
+</html>
